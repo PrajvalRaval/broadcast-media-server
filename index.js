@@ -1,7 +1,10 @@
 const ffmpeg = require('fluent-ffmpeg');
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const wss = require('websocket-stream');
 const { Server } = require('ws');
 const WebSocketServer = new Server({port: process.env.PORT || 8000, perMessageDeflate: false});
+
+ffmpeg.setFfmpegPath(ffmpegPath);
 
 WebSocketServer.on('connection', function(websocket, req) {
 	const name = req.url.replace('/', '');
