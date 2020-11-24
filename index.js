@@ -21,10 +21,11 @@ WebSocketServer.on('connection', function(websocket, req) {
 		.addOption('-preset:v', 'ultrafast')
 		.videoBitrate('500k')
 		.audioBitrate('128k')
-		.size('?x720')
+		.size('?x480')
 		.addOption('-f', 'flv')
 		.on('error', function(err) {
 			console.log(`Error: ${ err.message }`);
+			encoder.kill();
 		})
 		.save(`rtmp://a.rtmp.youtube.com/live2/${ name }`, function(stdout) {
 			console.log(`Convert complete${ stdout }`);
