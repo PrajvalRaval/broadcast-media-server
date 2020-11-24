@@ -19,11 +19,9 @@ WebSocketServer.on("connection", function (websocket, req) {
   const encoder = ffmpeg()
     .input(stream)
     .videoCodec("libx264")
-    .audioCodec("libmp3lame")
+    .audioCodec("aac")
     .outputFPS(30)
     .addOption("-preset:v", "ultrafast")
-    .videoBitrate("500k")
-    .audioBitrate("128k")
     .size("?x480")
     .addOption("-f", "flv")
     .on("error", function (err) {
