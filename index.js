@@ -14,6 +14,7 @@ WebSocketServer.on('connection', function(websocket, req) {
 	}
 	const stream = wss(websocket);
 	console.log(`stream ${ stream }`);
+	console.log(stream);
 	const encoder = ffmpeg()
 		.input(stream)
 		.videoCodec('libx264')
