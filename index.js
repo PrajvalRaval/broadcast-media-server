@@ -13,6 +13,7 @@ WebSocketServer.on('connection', function(websocket, req) {
 		return websocket.terminate();
 	}
 	const stream = wss(websocket);
+	console.log(`stream ${ stream }`);
 	const encoder = ffmpeg()
 		.input(stream)
 		.videoCodec('libx264')
