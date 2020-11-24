@@ -4,8 +4,8 @@ const http = require("http");
 const WebSocketServer = require("ws").Server;
 
 const app = express();
-const server = http.createServer(app).listen(8000, () => {
-  console.log("Listening on port 8000...");
+const server = http.createServer(app).listen(4000, () => {
+  console.log("Listening on port 4000...");
 });
 0
 // Serve static files out of the www directory, where we will put our HTML page
