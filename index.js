@@ -12,6 +12,14 @@ ffmpeg.setFfmpegPath(ffmpegPath);
 
 WebSocketServer.on("connection", function (websocket, req) {
   const name = req.url.replace("/", "");
+
+  console.log("req");
+  console.log(req);
+
+  console.log("websocket");
+  console.log(websocket);
+
+  console.log("name");
   console.log(name);
 
   if (!name) {
@@ -19,8 +27,6 @@ WebSocketServer.on("connection", function (websocket, req) {
   }
 
   const stream = wss(websocket);
-  console.log(`stream ${stream}`);
-  console.log(stream);
 
   const encoder = ffmpeg()
     .input(stream)
