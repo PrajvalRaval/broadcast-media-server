@@ -42,7 +42,8 @@ WebSocketServer.on("connection", function (websocket, req) {
       console.log(`Error: ${err.message}`);
     })
     .save(`rtmp://a.rtmp.youtube.com/live2/${name}`, function (stdout) {
-      console.log(`Convert complete${stdout}`);
+	  console.log(`Convert complete${stdout}`);
+	  return websocket.terminate();
     });
 
   websocket.on("error", (err) => {
