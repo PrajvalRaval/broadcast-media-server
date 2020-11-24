@@ -2,7 +2,6 @@ const ffmpeg = require("fluent-ffmpeg");
 const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
 const wss = require("websocket-stream");
 const { Server } = require("ws");
-
 const WebSocketServer = new Server({
   port: process.env.PORT || 8000,
   perMessageDeflate: false,
@@ -12,27 +11,16 @@ ffmpeg.setFfmpegPath(ffmpegPath);
 
 WebSocketServer.on("connection", function (websocket, req) {
   const name = req.url.replace("/", "");
-
-  console.log("req");
-  console.log(req);
-
-  console.log("websocket");
-  console.log(websocket);
-
-  console.log("name");
   console.log(name);
-
   if (!name) {
     return websocket.terminate();
   }
-
   const stream = wss(websocket);
-
   const encoder = ffmpeg()
     .input(stream)
     .videoCodec("libx264")
     .audioCodec("libmp3lame")
-    .outputFPS(24)
+    .outputFPS(30)
     .addOption("-preset:v", "ultrafast")
     .videoBitrate("500k")
     .audioBitrate("128k")
@@ -42,14 +30,11 @@ WebSocketServer.on("connection", function (websocket, req) {
       console.log(`Error: ${err.message}`);
     })
     .save(`rtmp://a.rtmp.youtube.com/live2/${name}`, function (stdout) {
-	  console.log(`Convert complete${stdout}`);
-	  return websocket.terminate();
+      console.log(`Convert complete${stdout}`);
     });
-
   websocket.on("error", (err) => {
-    console.log("error", err);
+    console.log(`err: ${err}`);
   });
-
   websocket.on("close", () => {
     encoder.kill();
   });
