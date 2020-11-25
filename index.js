@@ -18,11 +18,13 @@ WebSocketServer.on("connection", function (websocket, req) {
   const stream = wss(websocket);
   const encoder = ffmpeg()
     .input(stream)
-    .videoCodec("copy")
-    .audioCodec("aac")
+    .videoCodec("libx264")
+    .audioCodec("libmp3lame")
     .outputFPS(30)
     .addOption("-preset:v", "ultrafast")
-    .size("?x480")
+    .videoBitrate("500k")
+    .audioBitrate("128k")
+    .size("?x720")
     .addOption("-f", "flv")
     .on("error", function (err) {
       console.log(`Error: ${err.message}`);
@@ -30,9 +32,6 @@ WebSocketServer.on("connection", function (websocket, req) {
     .save(`rtmp://a.rtmp.youtube.com/live2/${name}`, function (stdout) {
       console.log(`Convert complete${stdout}`);
     });
-  websocket.on("error", (err) => {
-    console.log(`err: ${err}`);
-  });
   websocket.on("close", () => {
     encoder.kill();
   });
